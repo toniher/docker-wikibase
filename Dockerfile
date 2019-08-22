@@ -91,7 +91,8 @@ RUN chown -R www-data:www-data /var/www/w
 
 RUN cd /var/www/w; php maintenance/update.php
 
-RUN cd /var/www/w/extensions/CirrusSearch/maintenance; php updateSearchIndexConfig.php
+# Elastica maintenance scripts
+RUN cd /var/www/w/extensions/CirrusSearch/maintenance; php updateSearchIndexConfig.php; php forceSearchIndex.php --skipParse; php forceSearchIndex.php --skipLinks --indexOnSkip
 
 RUN cd /var/www/w; php maintenance/runJobs.php
 
