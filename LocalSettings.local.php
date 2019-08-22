@@ -25,13 +25,6 @@ $wgVirtualRestConfig['modules']['parsoid'] = array(
 $wgSessionsInObjectCache = true;
 $wgVirtualRestConfig['modules']['parsoid']['forwardCookies'] = true;
 
-# CirrusSearch
-wfLoadExtension( 'Elastica' );
-require_once "$IP/extensions/CirrusSearch/CirrusSearch.php";
-$wgCirrusSearchServers = [ '${MW_ELASTIC_HOST}' ];
-$wgSearchType = 'CirrusSearch';
-$wgCirrusSearchExtraIndexSettings['index.mapping.total_fields.limit'] = 5000;
-
 
 require_once "$IP/extensions/Wikibase/vendor/autoload.php";
 require_once "$IP/extensions/Wikibase/lib/WikibaseLib.php";
