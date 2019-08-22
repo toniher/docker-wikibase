@@ -2,7 +2,7 @@
 
 source <(sed -E -n 's/[^#]+/export &/ p' vars.env)
 
-docker network create $NETWORK
+docker network create --subnet=$NETWORK_SUBNET $NETWORK
 
 bash wikibase-start-db.sh
 
