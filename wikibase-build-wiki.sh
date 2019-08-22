@@ -8,6 +8,7 @@ CACHE_INSTALL=`date +%Y-%m-%d-%H-%M`
 ELASTIC_HOST=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' $ELASTIC_CONTAINER`
 
 echo $MARIADB_HOST
+echo $ELASTIC_HOST
 echo $CACHE_INSTALL
 
 echo "Building wiki"

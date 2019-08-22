@@ -81,18 +81,18 @@ RUN ENVEXT=$MEDIAWIKI_VERSION && ENVEXT=$(echo $ENVEXT | sed -r "s/\./_/g") && b
 # Wikibase extension
 RUN ENVEXT=$MEDIAWIKI_VERSION && ENVEXT=$(echo $ENVEXT | sed -r "s/\./_/g") && bash /usr/local/bin/download-extension.sh Wikibase $ENVEXT /var/www/w/extensions
 
+# WikibaseImprot
+RUN cd /var/www/w/extensions; curl -fSL https://github.com/filbertkm/WikibaseImport/archive/master.tar.gz -o WikibaseImport.tar.gz \
+    && mkdir -p /var/www/w/extensions/WikibaseImport \
+    && tar -xf WikibaseImport.tar.gz -C /var/www/w/extensions/WikibaseImport --strip-components=1
+
 # Addding extra stuff to LocalSettings
 RUN echo "\n\
 include_once \"\$IP/LocalSettings.local.php\"; " >> /var/www/w/LocalSettings.php
 
 RUN cd /var/www/w; composer update --no-dev;
 
-RUN chown -R www-data:www-data /var/www/w
-
 RUN cd /var/www/w; php maintenance/update.php
-
-# Elastica maintenance scripts
-RUN cd /var/www/w/extensions/CirrusSearch/maintenance; php updateSearchIndexConfig.php; php forceSearchIndex.php --skipParse; php forceSearchIndex.php --skipLinks --indexOnSkip
 
 RUN cd /var/www/w; php maintenance/runJobs.php
 
@@ -108,9 +108,16 @@ COPY LocalSettings.elastic.php /var/www/w
 RUN echo "\n\
 include_once \"\$IP/LocalSettings.elastic.php\"; " >> /var/www/w/LocalSettings.php
 
+# Elastica maintenance scripts
+RUN sed -i "s/\$ELASTIC_HOST/$ELASTIC_HOST/" /var/www/w/LocalSettings.elastic.php 
+
+RUN cd /var/www/w/extensions/CirrusSearch/maintenance; php updateSearchIndexConfig.php; php forceSearchIndex.php --skipParse; php forceSearchIndex.php --skipLinks --indexOnSkip
+
 RUN sed -i "s/$MYSQL_HOST/$DB_CONTAINER/" /var/www/w/LocalSettings.php 
 RUN sed -i "s/$ELASTIC_HOST/$ELASTIC_CONTAINER/" /var/www/w/LocalSettings.elastic.php 
 
+# Changing owner
+RUN chown -R www-data:www-data /var/www/w
 
 # VOLUME image
 VOLUME /var/www/w/images
