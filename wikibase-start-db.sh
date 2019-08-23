@@ -8,7 +8,7 @@ docker run --net=$NETWORK --name $REDIS_CONTAINER -d redis:$REDIS_TAG
 
 echo "Running Elasticsearch"
 
-docker run --net=$NETWORK --name $ELASTIC_CONTAINER -d wikibase/elasticsearch:$ELASTIC_TAG
+docker run --name $ELASTIC_CONTAINER -d wikibase/elasticsearch:$ELASTIC_TAG
 
 echo "Running MariaDB"
 

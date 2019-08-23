@@ -34,4 +34,4 @@ require_once "$IP/extensions/Wikibase/client/WikibaseClient.php";
 require_once "$IP/extensions/Wikibase/client/ExampleSettings.php";
 
 # WikibaseImport
-require_once "$IP/extensions/WikibaseImport/WikibaseImport.php";
+wfLoadExtension( 'WikibaseImport' );

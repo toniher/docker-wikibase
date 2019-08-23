@@ -9,6 +9,7 @@ bash wikibase-start-db.sh
 bash wikibase-build-wiki.sh
 
 docker network connect $NETWORK $MARIADB_CONTAINER
+docker network connect $NETWORK $ELASTIC_CONTAINER
 
 bash wikibase-start-wiki.sh
 

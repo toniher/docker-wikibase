@@ -86,6 +86,8 @@ RUN cd /var/www/w/extensions; curl -fSL https://github.com/filbertkm/WikibaseImp
     && mkdir -p /var/www/w/extensions/WikibaseImport \
     && tar -xf WikibaseImport.tar.gz -C /var/www/w/extensions/WikibaseImport --strip-components=1
 
+RUN cd /var/www/w/extensions/WikibaseImport; composer update;
+
 # Addding extra stuff to LocalSettings
 RUN echo "\n\
 include_once \"\$IP/LocalSettings.local.php\"; " >> /var/www/w/LocalSettings.php
