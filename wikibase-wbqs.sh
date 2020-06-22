@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-source <(sed -E -n 's/[^#]+/export &/ p' vars.env)
+VARS=${1:-vars.env}
+
+source <(sed -E -n 's/[^#]+/export &/ p' $VARS)
 
 # Config here: https://github.com/wmde/wikibase-docker/tree/master/wdqs
 docker run -e WDQS_ENTITY_NAMESPACES="$WDQS_NS" -e WIKIBASE_HOST="$WIKI_CONTAINER" -e WDQS_HOST="$WDQS_CONTAINER" -e WDQS_PORT="$WDQS_PORT" --net=$NETWORK --name $WDQS_CONTAINER -d wikibase/wdqs:$WDQS_TAG /runBlazegraph.sh 

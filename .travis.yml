@@ -3,7 +3,7 @@ services:
 - docker
 language: bash
 script:
-- bash ./wikibase.sh
+- bash ./wikibase-build.sh
 
 
 

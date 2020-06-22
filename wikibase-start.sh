@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
-source <(sed -E -n 's/[^#]+/export &/ p' vars.env)
+VARS=${1:-vars.env}
+
+source <(sed -E -n 's/[^#]+/export &/ p' $VARS)
 
 bash wikibase-start-db.sh
 
-docker network connect $NETWORK $MARIADB_CONTAINER
+docker network connect $NETWORK $DB_CONTAINER
 docker network connect $NETWORK $ELASTIC_CONTAINER
 
 bash wikibase-start-wiki.sh

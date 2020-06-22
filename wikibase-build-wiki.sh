@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
-source <(sed -E -n 's/[^#]+/export &/ p' vars.env)
+VARS=${1:-vars.env}
 
-MARIADB_HOST=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' $MARIADB_CONTAINER`
+source <(sed -E -n 's/[^#]+/export &/ p' $VARS)
+
+MARIADB_HOST=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' $DB_CONTAINER`
 CACHE_INSTALL=`date +%Y-%m-%d-%H-%M`
 
 ELASTIC_HOST=`docker inspect --format '{{ .NetworkSettings.IPAddress }}' $ELASTIC_CONTAINER`
